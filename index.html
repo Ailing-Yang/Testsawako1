@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SinB Café 🎀</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Mali:wght@400;600;700&family=Itim&display=swap');
+
+:root {
+  --font-cute: 'Mali', 'Itim', cursive;
+}
+
+body {
+  font-family: 'Kanit', sans-serif;
+  background-color: #fce7f3;
+  background-image: radial-gradient(#f472b6 0.75px, transparent 0.75px), radial-gradient(#f472b6 0.75px, #fce7f3 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.font-brand {
+  font-family: var(--font-cute);
+}
+
+.mobile-container {
+  width: 100%;
+  max-width: 412px;
+  height: 100vh;
+  max-height: 870px;
+  background-color: #fff5f7;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(236, 72, 153, 0.3);
+}
+
+@media (min-width: 640px) {
+  .mobile-container {
+    height: 92vh;
+    border-radius: 42px;
+    border: 10px solid #fbcfe8;
+  }
+}
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Scrapbook Sticker Effects */
+.sticker-card {
+  background: #ffffff;
+  border: 3px solid #fff;
+  box-shadow: 0 8px 15px rgba(244, 114, 182, 0.15), 0 2px 4px rgba(0,0,0,0.05);
+  border-radius: 20px;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.tape-top {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 60px;
+  height: 18px;
+  background: rgba(254, 205, 211, 0.7);
+  border: 1px dashed #f43f5e;
+  z-index: 10;
+}
+
+/* Splash Screen */
+.splash-screen {
+  transition: transform 0.6s cubic-bezier(0.85, 0, 0.15, 1), opacity 0.5s ease;
+}
+.splash-screen.hidden-up {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Modals & Overlays */
+.overlay {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+.overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  transform: scale(0.9);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.overlay.active .modal-content {
+  transform: scale(1);
+}
+
+/* Receipt Pattern */
+.receipt-edge {
+  background: radial-gradient(circle, transparent, transparent 50%, #ffffff 50%, #ffffff 100%);
+  background-size: 15px 15px;
+}
+</style>
+</head>
+<body>
+
+<div class="mobile-container flex flex-col shadow-2xl">
+
+  <!-- ==================== Splash Screen ==================== -->
+  <div id="splashScreen" class="splash-screen absolute inset-0 z-50 bg-gradient-to-b from-pink-300 via-rose-200 to-pink-400 flex flex-col items-center justify-center text-white p-6">
+    <div class="absolute top-10 left-6 transform -rotate-12 bg-white/40 backdrop-blur-md px-4 py-1 rounded-full border border-white text-xs text-rose-700 font-bold">
+      🎀 Moshi? Moshi??
+    </div>
+    
+    <div class="z-10 text-center flex flex-col items-center w-full">
+      <!-- Mascot Avatar Collage -->
+      <div class="relative mb-6">
+        <div class="w-36 h-36 bg-white p-2 rounded-3xl shadow-2xl rotate-3 border-4 border-pink-200 overflow-hidden">
+          <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=SinBCafe&hair=long01&hairColor=0e0e0e" alt="SinB Avatar" class="w-full h-full object-cover rounded-2xl bg-pink-100">
+        </div>
+        <span class="absolute -bottom-2 -right-2 bg-pink-500 text-white text-xs px-3 py-1 rounded-full font-bold shadow-md border-2 border-white transform rotate-12">
+          ★ CUTE??!?!
+        </span>
+      </div>
+
+      <h1 class="text-4xl font-bold font-brand tracking-wide text-rose-600 drop-shadow-md mb-1">SinB Café 🍰</h1>
+      <p class="text-xs font-semibold text-rose-500 tracking-widest uppercase mb-4 bg-white/60 px-4 py-1 rounded-full border border-pink-200">
+        A LITTLE GIFT FOR YOU! 2026
+      </p>
+
+      <div class="flex space-x-1 text-amber-300 mb-8 text-lg">
+        <i class="fas fa-star drop-shadow"></i>
+        <i class="fas fa-star drop-shadow"></i>
+        <i class="fas fa-star drop-shadow"></i>
+        <i class="fas fa-star drop-shadow"></i>
+        <i class="fas fa-star drop-shadow"></i>
+      </div>
+
+      <button id="enterAppBtn" class="w-20 h-20 bg-rose-500 hover:bg-rose-600 text-white rounded-full flex items-center justify-center transition-all transform hover:scale-110 shadow-lg border-4 border-white mb-4 animate-bounce">
+        <i class="fas fa-heart text-3xl"></i>
+      </button>
+      <p class="text-xs text-rose-700 font-bold bg-white/50 px-3 py-1 rounded-full">กดหัวใจเพื่อเข้าร้าน SinB Café นะคะ ✨</p>
+    </div>
+  </div>
+
+  <!-- ==================== Header ==================== -->
+  <div class="pt-10 pb-3 px-4 bg-white/80 backdrop-blur-md flex justify-between items-center sticky top-0 z-20 border-b border-pink-100">
+    <div class="flex items-center space-x-2">
+      <!-- Status Bar Queue -->
+      <button id="btnCheckQueueHeader" class="border-2 border-dashed border-pink-400 bg-pink-50 px-2.5 py-1 rounded-full flex items-center text-[11px] font-bold text-pink-600 hover:bg-pink-100 transition">
+        <span class="w-2 h-2 rounded-full bg-green-400 animate-ping mr-1.5"></span>
+        เช็คคิวงานร้าน
+      </button>
+    </div>
+
+    <!-- Main Title -->
+    <h1 class="text-2xl font-bold font-brand text-rose-500 tracking-wide drop-shadow-sm">SinB Café 🎀</h1>
+
+    <!-- Badges (ปุ่มกลมเล็กๆ ด้านบน) -->
+    <div class="flex items-center space-x-1.5">
+      <button id="btnHeaderChat" class="w-8 h-8 rounded-full bg-pink-100 border border-pink-300 flex items-center justify-center text-pink-600 hover:bg-pink-200 transition shadow-sm" title="แชทเรียลไทม์">
+        <i class="fas fa-comments text-xs"></i>
+      </button>
+      <button id="btnHeaderReview" class="w-8 h-8 rounded-full bg-rose-100 border border-rose-300 flex items-center justify-center text-rose-600 hover:bg-rose-200 transition shadow-sm" title="โหลแก้วรีวิว">
+        <i class="fas fa-glass-whiskey text-xs"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== Main Content (Template 1 & 2 Layer) ==================== -->
+  <div class="flex-1 overflow-y-auto hide-scrollbar pb-24 p-4 space-y-5">
+    
+    <!-- TEMPLATE 1: Web Home Banner Scrapbook Layer -->
+    <div class="sticker-card p-5 bg-gradient-to-br from-pink-50 via-rose-50 to-orange-50 border-2 border-pink-200 overflow-hidden">
+      <div class="tape-top"></div>
+      
+      <!-- Top Decorative Tag -->
+      <div class="flex justify-between items-start mb-3">
+        <span class="bg-rose-500 text-white text-[10px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wider shadow">
+          Golden Card ★ 2026
+        </span>
+        <span class="text-xs font-brand font-bold text-pink-400 rotate-6">
+          * LIFE GOES ON! *
+        </span>
+      </div>
+
+      <div class="flex items-center gap-4 my-2">
+        <div class="w-24 h-24 rounded-2xl bg-white p-1.5 shadow-md border-2 border-pink-300 transform -rotate-3 shrink-0">
+          <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=SinBAnime&hair=long01" alt="SinB Anime" class="w-full h-full object-cover rounded-xl bg-pink-100">
+        </div>
+        <div>
+          <h2 class="text-xl font-bold font-brand text-rose-600 leading-tight">
+            TOAST TO GOOD TIMES WITH SINB CAFÉ ✨
+          </h2>
+          <p class="text-[11px] text-gray-600 mt-1 font-light leading-relaxed">
+            ต้อนรับสู่คาเฟ่สุดคิวท์ รับทำเว็บไซต์ มินิแอป และบริการงานกราฟิกครบวงจร 💕
+          </p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="grid grid-cols-2 gap-2 mt-4">
+        <button id="btnOpenRealtimeChat" class="bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs py-2.5 px-3 rounded-xl shadow flex items-center justify-center gap-1.5 transition">
+          <i class="fas fa-paper-plane"></i> แชทเรียลไทม์สด
+        </button>
+        <button id="btnOpenQueueModal" class="bg-pink-100 hover:bg-pink-200 text-rose-600 border border-pink-300 font-bold text-xs py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 transition">
+          <i class="fas fa-list-check"></i> ตารางเช็คคิว
+        </button>
+      </div>
+    </div>
+
+    <!-- TEMPLATE 2: Options & Layer Cards (เช็คคิว & แชทเรียลไทม์) -->
+    <div class="grid grid-cols-1 gap-4">
+      
+      <!-- Card ด้านนอก: แชทเรียลไทม์ -->
+      <div class="sticker-card p-4 bg-white border-2 border-pink-200 transform hover:-translate-y-1 transition duration-200">
+        <div class="flex items-center justify-between border-b border-pink-100 pb-2 mb-3">
+          <div class="flex items-center gap-2">
+            <span class="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center font-bold text-sm shadow">💬</span>
+            <div>
+              <h3 class="font-bold text-sm text-gray-800 font-brand">แชทเรียลไทม์กับแม่ค้า</h3>
+              <p class="text-[10px] text-gray-400">สอบถามรายละเอียด สั่งซื้อ & รับใบเสร็จ</p>
+            </div>
+          </div>
+          <span class="text-[10px] bg-green-100 text-green-600 font-bold px-2 py-0.5 rounded-full border border-green-200">Online</span>
+        </div>
+        <p class="text-xs text-gray-500 mb-3">ปรึกษาคิวงาน สั่งทำเว็บ หรือส่งรีฟงานได้ตลอด 24 ชม. ผ่านระบบแชทสดในร้าน</p>
+        <button id="btnGoToChatHome" class="w-full bg-gradient-to-r from-rose-400 to-pink-500 text-white font-bold text-xs py-2 rounded-xl shadow hover:opacity-95 transition flex items-center justify-center gap-2">
+          <i class="fas fa-comments"></i> กดเข้าสู่ห้องแชทสด
+        </button>
+      </div>
+
+      <!-- Card ด้านใน: ตารางเช็คคิวงาน -->
+      <div class="sticker-card p-4 bg-pink-50/60 border-2 border-dashed border-pink-300">
+        <div class="flex items-center justify-between border-b border-pink-200 pb-2 mb-3">
+          <div class="flex items-center gap-2">
+            <span class="w-8 h-8 rounded-full bg-pink-400 text-white flex items-center justify-center font-bold text-sm shadow">📋</span>
+            <div>
+              <h3 class="font-bold text-sm text-pink-700 font-brand">ระบบเช็คคิวงาน SinB</h3>
+              <p class="text-[10px] text-pink-400">อัปเดตสถานะคิวแบบ Realtime</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 mb-3">
+          <div class="bg-white p-2.5 rounded-xl border border-pink-200 text-center shadow-sm">
+            <span class="text-[10px] text-gray-500 block">คิวที่ติดตอนนี้</span>
+            <span id="busyQueueCount" class="text-lg font-bold text-rose-500">3 คิว</span>
+          </div>
+          <div class="bg-white p-2.5 rounded-xl border border-pink-200 text-center shadow-sm">
+            <span class="text-[10px] text-gray-500 block">คิวว่างพร้อมรับ</span>
+            <span id="freeQueueCount" class="text-lg font-bold text-green-500">2 คิว</span>
+          </div>
+        </div>
+
+        <button id="btnBookingQueue" class="w-full bg-white hover:bg-pink-100 text-pink-600 border-2 border-pink-400 font-bold text-xs py-2 rounded-xl shadow-sm transition flex items-center justify-center gap-2">
+          <i class="fas fa-calendar-plus"></i> กดจองคิวงานทันที ✨
+        </button>
+      </div>
+
+    </div>
+
+    <!-- TEMPLATE 3 Trigger Section: โหลแก้วรีวิว -->
+    <div id="reviewTriggerSection" class="sticker-card p-4 bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 text-center">
+      <div class="tape-top"></div>
+      <h3 class="font-bold text-sm text-purple-700 font-brand mb-1">🏺 โหลแก้วสะสมความรู้สึก (Reviews)</h3>
+      <p class="text-[11px] text-purple-500 mb-3">คลิกดูรีวิวความน่ารักจากลูกค้า และหยอดความรู้สึกใส่โหลแก้ว</p>
+      <button id="btnOpenGlassReview" class="bg-purple-500 hover:bg-purple-600 text-white font-bold text-xs px-5 py-2 rounded-full shadow-md transition">
+        <i class="fas fa-heart mr-1"></i> เปิดดูโหลแก้วรีวิว
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ==================== Bottom Navigation ==================== -->
+  <div class="absolute bottom-0 w-full bg-white/90 backdrop-blur-md border-t border-pink-200 px-6 py-3 flex justify-around items-center z-30">
+    <button id="navHome" class="flex flex-col items-center text-rose-500 font-bold">
+      <i class="fas fa-store text-xl mb-0.5"></i>
+      <span class="text-[10px] font-brand">หน้าหลัก</span>
+    </button>
+    <button id="navChat" class="flex flex-col items-center text-gray-400 hover:text-rose-400 transition">
+      <i class="fas fa-comment-dots text-xl mb-0.5"></i>
+      <span class="text-[10px] font-brand">แชทสด</span>
+    </button>
+    <button id="navReview" class="flex flex-col items-center text-gray-400 hover:text-rose-400 transition">
+      <i class="fas fa-glass-whiskey text-xl mb-0.5"></i>
+      <span class="text-[10px] font-brand">รีวิว</span>
+    </button>
+  </div>
+
+</div>
+<!-- ==================== MODAL: จองคิวงาน (Template 2) ==================== -->
+<div id="bookingModal" class="overlay fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+  <div class="modal-content bg-white w-full max-w-[340px] rounded-3xl p-5 shadow-2xl border-4 border-pink-200 relative">
+    <button class="close-booking-btn absolute top-3 right-3 w-8 h-8 bg-pink-100 text-pink-500 rounded-full flex items-center justify-center font-bold">✕</button>
+    
+    <h3 class="font-bold text-lg font-brand text-rose-600 mb-1 flex items-center gap-2">
+      <i class="fas fa-edit"></i> ฟอร์มจองคิวงาน SinB
+    </h3>
+    <p class="text-[11px] text-gray-400 mb-4">กรอกรายละเอียดงานเพื่อสำรองคิวล่วงหน้า</p>
+
+    <form id="bookingForm" class="space-y-3">
+      <div>
+        <label class="text-[11px] font-bold text-gray-600 block mb-1">ชื่อผู้ติดต่อ / ชื่อร้าน</label>
+        <input type="text" id="bookName" required class="w-full bg-pink-50/50 border border-pink-200 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:border-rose-400" placeholder="เช่น คุณมินต์ / Minty Shop">
+      </div>
+      <div>
+        <label class="text-[11px] font-bold text-gray-600 block mb-1">ประเภทงานที่ต้องการจอง</label>
+        <select id="bookType" class="w-full bg-pink-50/50 border border-pink-200 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:border-rose-400">
+          <option>เว็บเรทราคา / เว็บร้านค้า</option>
+          <option>ออกแบบป้าย / โลโก้</option>
+          <option>ตกแต่งแอป / อื่นๆ</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-[11px] font-bold text-gray-600 block mb-1">รายละเอียดสังเขป</label>
+        <textarea id="bookDetail" rows="2" class="w-full bg-pink-50/50 border border-pink-200 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:border-rose-400" placeholder="ระบุโทนสี หรือความต้องการเพิ่มเติม..."></textarea>
+      </div>
+      <button type="submit" class="w-full bg-rose-500 text-white font-bold py-2 rounded-xl text-xs shadow-md hover:bg-rose-600 transition">
+        ยืนยันการจองคิว ✨
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- ==================== MODAL: โหลแก้วรีวิว (Template 3) ==================== -->
+<div id="reviewModal" class="overlay fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+  <div class="modal-content bg-white w-full max-w-[350px] rounded-3xl p-5 shadow-2xl border-4 border-purple-200 relative flex flex-col max-h-[85vh]">
+    <button class="close-review-btn absolute top-3 right-3 w-8 h-8 bg-purple-100 text-purple-500 rounded-full flex items-center justify-center font-bold">✕</button>
+
+    <h3 class="font-bold text-lg font-brand text-purple-700 mb-1 flex items-center gap-2">
+      <i class="fas fa-glass-whiskey"></i> โหลแก้วสะสมความรู้สึก 🏺
+    </h3>
+    <p class="text-[10px] text-gray-400 mb-3">รีวิวระดับความชอบ 3 ระดับสไตล์ SinB Café</p>
+
+    <!-- Glass Jar Graphic Container -->
+    <div class="bg-gradient-to-b from-purple-50 to-pink-50 rounded-2xl p-4 border-2 border-dashed border-purple-200 mb-3 relative overflow-y-auto hide-scrollbar flex-1">
+      <div id="reviewJarContainer" class="space-y-2.5">
+        <!-- Default Preset Reviews -->
+        <div class="bg-white p-2.5 rounded-xl border border-pink-200 shadow-sm flex items-start gap-2">
+          <span class="text-xl">😍</span>
+          <div>
+            <div class="flex items-center gap-1">
+              <span class="font-bold text-xs text-gray-700">คุณพลอย</span>
+              <span class="text-[9px] bg-pink-100 text-pink-600 px-1.5 py-0.2 rounded-full font-bold">ชอบมากที่สุด!</span>
+            </div>
+            <p class="text-[11px] text-gray-500 mt-0.5">เว็บน่ารักมากเลยค่ะ งานไว แม่ค้าพูดจาดีมากแนะนำเลย ✨</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-2.5 rounded-xl border border-purple-200 shadow-sm flex items-start gap-2">
+          <span class="text-xl">🙂</span>
+          <div>
+            <div class="flex items-center gap-1">
+              <span class="font-bold text-xs text-gray-700">คุณปอนด์</span>
+              <span class="text-[9px] bg-purple-100 text-purple-600 px-1.5 py-0.2 rounded-full font-bold">ปานกลาง/โอเค</span>
+            </div>
+            <p class="text-[11px] text-gray-500 mt-0.5">ได้รับงานเรียบร้อยครับ ตรงตามบรีฟครับผม</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review Form -->
+    <div class="bg-purple-50/80 p-3 rounded-2xl border border-purple-200">
+      <span class="text-[11px] font-bold text-purple-700 block mb-1">หยอดรีวิวลงโหลแก้ว</span>
+      <div class="flex justify-around mb-2">
+        <label class="cursor-pointer flex flex-col items-center text-[10px] text-gray-600">
+          <input type="radio" name="moodLevel" value="😍" checked class="peer hidden">
+          <span class="text-2xl p-1 rounded-full peer-checked:bg-pink-200 peer-checked:scale-125 transition">😍</span>
+          <span>ชอบมาก</span>
+        </label>
+        <label class="cursor-pointer flex flex-col items-center text-[10px] text-gray-600">
+          <input type="radio" name="moodLevel" value="🙂" class="peer hidden">
+          <span class="text-2xl p-1 rounded-full peer-checked:bg-purple-200 peer-checked:scale-125 transition">🙂</span>
+          <span>โอเค/ดี</span>
+        </label>
+        <label class="cursor-pointer flex flex-col items-center text-[10px] text-gray-600">
+          <input type="radio" name="moodLevel" value="🙁" class="peer hidden">
+          <span class="text-2xl p-1 rounded-full peer-checked:bg-gray-200 peer-checked:scale-125 transition">🙁</span>
+          <span>ไม่ชอบ</span>
+        </label>
+      </div>
+      <input type="text" id="reviewComment" placeholder="เขียนความรู้สึก..." class="w-full bg-white border border-purple-200 rounded-xl px-3 py-1.5 text-xs mb-2 focus:outline-none">
+      <button id="btnSubmitReview" class="w-full bg-purple-600 text-white font-bold text-xs py-1.5 rounded-xl shadow hover:bg-purple-700 transition">
+        ส่งรีวิวเข้าโหลแก้ว 💖
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FULLSCREEN PAGE: แชทสด & โฮมแชท (Template 4 & 6) ==================== -->
+<div id="chatPage" class="overlay fixed inset-0 z-40 bg-pink-50 flex flex-col">
+  
+  <!-- Chat Top Bar -->
+  <div class="pt-10 pb-3 px-4 bg-white border-b border-pink-200 flex justify-between items-center shadow-sm">
+    <button id="btnCloseChatPage" class="text-gray-500 font-bold text-sm bg-pink-100 w-8 h-8 rounded-full flex items-center justify-center">
+      ✕
+    </button>
+    <div class="text-center">
+      <h3 class="font-bold text-sm text-rose-600 font-brand">SinB Realtime Chat 💬</h3>
+      <span class="text-[9px] text-green-500 font-bold">● แม่ค้าพร้อมตอบ</span>
+    </div>
+    <div class="flex items-center gap-1.5">
+      <!-- ปุ่มกระดิ่งเรียกแม่ค้า -->
+      <button id="btnRingBell" class="w-8 h-8 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-xs shadow-sm hover:bg-amber-200 active:scale-95 transition" title="เรียกแม่ค้า">
+        🔔
+      </button>
+      <!-- ปุ่มบัญชีธนาคาร (Template 4) -->
+      <button id="btnOpenBankModal" class="w-8 h-8 bg-pink-500 text-white rounded-full flex items-center justify-center text-xs shadow-sm hover:bg-pink-600 active:scale-95 transition" title="เลขบัญชี">
+        💳
+      </button>
+    </div>
+  </div>
+
+  <!-- Chat Messages Container -->
+  <div id="chatMessagesBox" class="flex-1 overflow-y-auto p-4 space-y-3 bg-[#fff9fa]">
+    <div class="text-center my-2">
+      <span class="text-[10px] bg-pink-100 text-pink-500 px-3 py-1 rounded-full font-bold">ยินดีต้อนรับสู่ห้องแชท SinB Café ✨</span>
+    </div>
+    
+    <!-- Seller Bot Greeting -->
+    <div class="flex items-start gap-2">
+      <div class="w-8 h-8 rounded-full bg-pink-300 p-0.5 shrink-0 border border-white">
+        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=SinBCafe" class="w-full h-full rounded-full">
+      </div>
+      <div class="bg-white border border-pink-200 p-3 rounded-2xl rounded-tl-none max-w-[75%] shadow-sm text-xs text-gray-700">
+        สวัสดีค่า SinB Café ยินดีให้บริการค่ะ 💕 สอบถามงานหรือแจ้งโอนเงินในนี้ได้เลยน้า
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Controls / Action Bar -->
+  <div id="chatControls" class="bg-white border-t border-pink-200 p-3 flex flex-col gap-2">
+    <!-- Merchant Action Tools (จำลองปุ่มฝั่งแม่ค้า) -->
+    <div class="flex justify-end gap-2 border-b border-pink-100 pb-2">
+      <button id="btnOpenReceiptModal" class="text-[10px] bg-rose-100 text-rose-600 font-bold px-2.5 py-1 rounded-lg border border-rose-300 hover:bg-rose-200">
+        🧾 แม่ค้า: ออกใบเสร็จ (Template 6)
+      </button>
+      <button id="btnFinishOrder" class="text-[10px] bg-purple-100 text-purple-600 font-bold px-2.5 py-1 rounded-lg border border-purple-300 hover:bg-purple-200">
+        ✨ ปุ่มจบการซื้อขาย (Template 5)
+      </button>
+    </div>
+
+    <!-- Input Bar -->
+    <form id="chatForm" class="flex gap-2">
+      <input type="text" id="chatInput" placeholder="พิมพ์ข้อความ..." class="flex-1 bg-pink-50/60 border border-pink-200 rounded-xl px-3 py-2 text-xs focus:outline-none">
+      <button type="submit" class="bg-rose-500 text-white px-4 py-2 rounded-xl text-xs font-bold shadow hover:bg-rose-600">
+        ส่ง
+      </button>
+    </form>
+  </div>
+
+</div>
+
+<!-- ==================== MODAL: บัญชีธนาคาร (Template 4) ==================== -->
+<div id="bankModal" class="overlay fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+  <div class="modal-content bg-white w-full max-w-[330px] rounded-3xl p-5 shadow-2xl border-4 border-pink-300 relative text-center">
+    <button class="close-bank-btn absolute top-3 right-3 w-8 h-8 bg-pink-100 text-pink-500 rounded-full flex items-center justify-center font-bold">✕</button>
+
+    <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center text-3xl mx-auto mb-2 text-pink-500 shadow-inner">
+      💳
+    </div>
+    
+    <h3 class="font-bold text-base font-brand text-rose-600">ช่องทางการชำระเงิน</h3>
+    <p class="text-[10px] text-gray-400 mb-4">SinB Café Official Payment</p>
+
+    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-2xl border border-blue-200 text-left mb-3 relative overflow-hidden">
+      <span class="text-[10px] font-bold text-blue-600 bg-blue-100 px-2 py-0.5 rounded-full">ธนาคารกสิกรไทย (KBANK)</span>
+      <div class="mt-2">
+        <span class="text-[11px] text-gray-500 block">ชื่อบัญชี: บจก. ซินบี คาเฟ่ (SinB Café)</span>
+        <span id="bankAccNo" class="text-lg font-bold text-blue-900 font-mono tracking-wider">123-4-56789-0</span>
+      </div>
+    </div>
+
+    <button id="btnCopyAcc" class="w-full bg-rose-500 text-white font-bold text-xs py-2.5 rounded-xl shadow hover:bg-rose-600 transition flex items-center justify-center gap-2">
+      <i class="fas fa-copy"></i> คัดลอกเลขบัญชีอัตโนมัติ
+    </button>
+  </div>
+</div>
+
+<!-- ==================== MODAL: ออกใบเสร็จ (Template 6) ==================== -->
+<div id="receiptModal" class="overlay fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+  <div class="modal-content bg-white w-full max-w-[340px] rounded-3xl p-5 shadow-2xl border-4 border-amber-200 relative">
+    <button class="close-receipt-btn absolute top-3 right-3 w-8 h-8 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center font-bold">✕</button>
+
+    <h3 class="font-bold text-base font-brand text-amber-700 mb-1 flex items-center gap-2">
+      🧾 กรอกรายละเอียดใบเสร็จ
+    </h3>
+    <p class="text-[10px] text-gray-400 mb-3">ระบบจะออกใบเสร็จและส่งเข้าแชทโดยอัตโนมัติ</p>
+
+    <form id="receiptForm" class="space-y-2.5">
+      <div>
+        <label class="text-[10px] font-bold text-gray-600 block mb-0.5">ชื่อลูกค้า</label>
+        <input type="text" id="recCustomer" required class="w-full bg-amber-50/50 border border-amber-200 rounded-xl px-3 py-1.5 text-xs">
+      </div>
+      <div>
+        <label class="text-[10px] font-bold text-gray-600 block mb-0.5">รายการบริการ</label>
+        <input type="text" id="recItem" value="เว็บเรทราคา คุมโทนพาสเทล" required class="w-full bg-amber-50/50 border border-amber-200 rounded-xl px-3 py-1.5 text-xs">
+      </div>
+      <div>
+        <label class="text-[10px] font-bold text-gray-600 block mb-0.5">จำนวนเงินสุทธิ (บาท)</label>
+        <input type="number" id="recAmount" value="299" required class="w-full bg-amber-50/50 border border-amber-200 rounded-xl px-3 py-1.5 text-xs">
+      </div>
+      <button type="submit" class="w-full bg-amber-500 text-white font-bold text-xs py-2 rounded-xl shadow hover:bg-amber-600 transition">
+        พิมพ์ใบเสร็จส่งเข้าแชท 🖨️
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- ==================== MODAL: ขอบคุณ & จบการขาย (Template 5) ==================== -->
+<div id="finishModal" class="overlay fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+  <div class="modal-content bg-gradient-to-b from-pink-100 to-rose-200 w-full max-w-[320px] rounded-3xl p-6 shadow-2xl border-4 border-white text-center relative overflow-hidden">
+    <div class="tape-top"></div>
+    
+    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center text-4xl mx-auto mb-3 shadow-md border-2 border-pink-300">
+      🎀
+    </div>
+
+    <h2 class="text-2xl font-bold font-brand text-rose-600 mb-1">ขอบคุณที่อุดหนุนนะคะ!</h2>
+    <p class="text-xs text-rose-700 font-bold mb-4 font-brand">SinB Café - A Little Gift For You</p>
+
+    <div class="bg-white/80 backdrop-blur-sm p-3 rounded-2xl border border-pink-200 text-xs text-gray-600 mb-4 leading-relaxed">
+      หวังว่าจะชอบผลงานจากทางร้านนะคะ หากมีข้อสงสัยเพิ่มเติม สามารถทักมาสอบถามได้เสมอเลยน้า ✨
+    </div>
+
+    <button id="btnCloseFinishModal" class="w-full bg-rose-500 text-white font-bold text-xs py-2.5 rounded-xl shadow-md hover:bg-rose-600 transition">
+      กลับสู่หน้าหลัก SinB Café 🏠
+    </button>
+  </div>
+</div>
+
+<!-- ==================== JAVASCRIPT LOGIC ==================== -->
+<script>
+// Splash Screen
+document.getElementById('enterAppBtn').addEventListener('click', () => {
+  document.getElementById('splashScreen').classList.add('hidden-up');
+});
+
+// Modal Toggles Helper
+function toggleModal(modalId, isActive) {
+  const modal = document.getElementById(modalId);
+  if (isActive) modal.classList.add('active');
+  else modal.classList.remove('active');
+}
+
+// Queue & Booking Logic (Template 2)
+document.getElementById('btnOpenQueueModal').addEventListener('click', () => toggleModal('bookingModal', true));
+document.getElementById('btnBookingQueue').addEventListener('click', () => toggleModal('bookingModal', true));
+document.getElementById('btnCheckQueueHeader').addEventListener('click', () => toggleModal('bookingModal', true));
+document.querySelector('.close-booking-btn').addEventListener('click', () => toggleModal('bookingModal', false));
+
+document.getElementById('bookingForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  alert('✨ จองคิวสำเร็จแล้วค่ะ! แม่ค้าได้รับข้อมูลการจองของคุณเรียบร้อยแล้ว');
+  toggleModal('bookingModal', false);
+});
+
+// Review Jar Logic (Template 3)
+document.getElementById('btnHeaderReview').addEventListener('click', () => toggleModal('reviewModal', true));
+document.getElementById('btnOpenGlassReview').addEventListener('click', () => toggleModal('reviewModal', true));
+document.getElementById('navReview').addEventListener('click', () => toggleModal('reviewModal', true));
+document.querySelector('.close-review-btn').addEventListener('click', () => toggleModal('reviewModal', false));
+
+document.getElementById('btnSubmitReview').addEventListener('click', () => {
+  const comment = document.getElementById('reviewComment').value;
+  const mood = document.querySelector('input[name="moodLevel"]:checked').value;
+  if (!comment) return alert('กรุณาพิมพ์ความรู้สึกก่อนส่งน้า');
+
+  const container = document.getElementById('reviewJarContainer');
+  const reviewCard = document.createElement('div');
+  reviewCard.className = "bg-white p-2.5 rounded-xl border border-pink-200 shadow-sm flex items-start gap-2 animate-bounce";
+  reviewCard.innerHTML = `
+    <span class="text-xl">${mood}</span>
+    <div>
+      <div class="flex items-center gap-1">
+        <span class="font-bold text-xs text-gray-700">คุณ (ลูกค้า)</span>
+        <span class="text-[9px] bg-pink-100 text-pink-600 px-1.5 py-0.2 rounded-full font-bold">รีวิวใหม่</span>
+      </div>
+      <p class="text-[11px] text-gray-500 mt-0.5">${comment}</p>
+    </div>
+  `;
+  container.prepend(reviewCard);
+  document.getElementById('reviewComment').value = '';
+  alert('หยอดรีวิวลงโหลแก้วเรียบร้อยแล้วขอบคุณค่า 💕');
+});
+
+// Realtime Chat Page Logic (Template 4)
+const openChat = () => toggleModal('chatPage', true);
+document.getElementById('btnHeaderChat').addEventListener('click', openChat);
+document.getElementById('btnOpenRealtimeChat').addEventListener('click', openChat);
+document.getElementById('btnGoToChatHome').addEventListener('click', openChat);
+document.getElementById('navChat').addEventListener('click', openChat);
+document.getElementById('btnCloseChatPage').addEventListener('click', () => toggleModal('chatPage', false));
+
+// Ring Bell Feature
+document.getElementById('btnRingBell').addEventListener('click', () => {
+  const box = document.getElementById('chatMessagesBox');
+  box.innerHTML += `
+    <div class="text-center my-1">
+      <span class="text-[9px] bg-amber-100 text-amber-700 px-2.5 py-0.5 rounded-full font-bold">🔔 สั่นกระดิ่งเรียกแม่ค้าแล้ว!</span>
+    </div>
+  `;
+  box.scrollTop = box.scrollHeight;
+});
+
+// Bank Copy (Template 4)
+document.getElementById('btnOpenBankModal').addEventListener('click', () => toggleModal('bankModal', true));
+document.querySelector('.close-bank-btn').addEventListener('click', () => toggleModal('bankModal', false));
+document.getElementById('btnCopyAcc').addEventListener('click', () => {
+  navigator.clipboard.writeText('1234567890');
+  alert('📋 คัดลอกเลขบัญชี 123-4-56789-0 เรียบร้อยแล้วค่ะ!');
+  toggleModal('bankModal', false);
+});
+
+// Chat Send Form
+document.getElementById('chatForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const input = document.getElementById('chatInput');
+  if (!input.value.trim()) return;
+
+  const box = document.getElementById('chatMessagesBox');
+  box.innerHTML += `
+    <div class="flex items-end justify-end gap-2">
+      <div class="bg-rose-500 text-white p-2.5 rounded-2xl rounded-tr-none max-w-[75%] shadow-sm text-xs">
+        ${input.value}
+      </div>
+    </div>
+  `;
+  input.value = '';
+  box.scrollTop = box.scrollHeight;
+});
+
+// Receipt Receipt Logic (Template 6)
+document.getElementById('btnOpenReceiptModal').addEventListener('click', () => toggleModal('receiptModal', true));
+document.querySelector('.close-receipt-btn').addEventListener('click', () => toggleModal('receiptModal', false));
+
+document.getElementById('receiptForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const name = document.getElementById('recCustomer').value;
+  const item = document.getElementById('recItem').value;
+  const amount = document.getElementById('recAmount').value;
+
+  const box = document.getElementById('chatMessagesBox');
+  box.innerHTML += `
+    <div class="bg-white border-2 border-amber-300 rounded-2xl p-4 shadow-md my-2 max-w-[85%] mx-auto font-mono text-xs text-gray-700">
+      <div class="text-center border-b border-dashed border-amber-300 pb-2 mb-2">
+        <h4 class="font-bold text-amber-600 font-brand text-sm">🧾 ใบเสร็จรับเงิน SinB Café</h4>
+        <span class="text-[9px] text-gray-400">Date: ${new Date().toLocaleDateString('th-TH')}</span>
+      </div>
+      <div class="space-y-1 mb-2 text-[11px]">
+        <p><strong>ลูกค้า:</strong> ${name}</p>
+        <p><strong>รายการ:</strong> ${item}</p>
+        <p><strong>ยอดชำระ:</strong> <span class="text-rose-600 font-bold">${amount} บาท</span></p>
+      </div>
+      <div class="text-center border-t border-dashed border-amber-300 pt-2 text-[9px] text-green-600 font-bold">
+        ✓ ชำระเงินเรียบร้อยแล้ว (Save Image ได้เลยค่ะ)
+      </div>
+    </div>
+  `;
+  
+  // ล็อคแชทสิ้นสุดการซื้อขายตามเงื่อนไขข้อ 8
+  document.getElementById('chatControls').innerHTML = `
+    <div class="p-2 bg-pink-100 text-pink-700 rounded-xl text-center text-xs font-bold">
+      🔒 แชทนี้สิ้นสุดการซื้อขายแล้ว (เก็บประวัติที่หน้าโฮม)
+    </div>
+  `;
+  
+  toggleModal('receiptModal', false);
+  box.scrollTop = box.scrollHeight;
+});
+
+// Finish Order Modal (Template 5)
+document.getElementById('btnFinishOrder').addEventListener('click', () => toggleModal('finishModal', true));
+document.getElementById('btnCloseFinishModal').addEventListener('click', () => {
+  toggleModal('finishModal', false);
+  toggleModal('chatPage', false);
+});
+</script>
+
+</body>
+</html>
